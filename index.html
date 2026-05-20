@@ -6,13 +6,13 @@
 
     <title>Poultry Growth Kinetics Lab - Ross 308 Broilers</title>
 
-    <!-- Tailwind -->
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
 
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    <!-- Fonts -->
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
@@ -69,10 +69,6 @@
             border-radius: 9999px;
         }
 
-        .glass-card {
-            backdrop-filter: blur(10px);
-        }
-
     </style>
 
 </head>
@@ -126,10 +122,10 @@
     <main class="flex-grow max-w-[1600px] mx-auto w-full px-4 py-6 space-y-6">
 
         <!-- ===================================================== -->
-        <!-- TOP SECTION -->
+        <!-- TOP GRID -->
         <!-- ===================================================== -->
 
-        <section class="grid grid-cols-1 xl:grid-cols-12 gap-6 items-stretch">
+        <section class="grid grid-cols-1 xl:grid-cols-12 gap-6">
 
             <!-- ===================================================== -->
             <!-- LEFT SIDE -->
@@ -204,7 +200,7 @@
 
                 </div>
 
-                <!-- GROWTH SETTINGS -->
+                <!-- SETTINGS -->
 
                 <div class="mt-6 pt-5 border-t border-slate-100">
 
@@ -452,7 +448,7 @@
 
                 </div>
 
-                <!-- CALCULUS STEPS -->
+                <!-- CALCULUS -->
 
                 <div class="mt-5 bg-slate-900 rounded-2xl p-5 border border-slate-800">
 
@@ -486,7 +482,7 @@
 
                 </div>
 
-                <!-- LAYMAN ADVICE -->
+                <!-- ADVICE -->
 
                 <div class="mt-5 bg-slate-900 rounded-2xl p-5 border border-slate-800">
 
@@ -508,7 +504,7 @@
         </section>
 
         <!-- ===================================================== -->
-        <!-- MALAYSIAN POULTRY SECTION -->
+        <!-- MALAYSIAN SECTION -->
         <!-- ===================================================== -->
 
         <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
@@ -564,14 +560,6 @@
 
                 </ul>
 
-                <div class="border-l-4 border-slate-200 pl-4 py-3 italic bg-slate-50 rounded-r-lg font-mono text-xs text-slate-500">
-
-                    <strong>Reference scientific benchmarks:</strong>
-
-                    Malaysian Society of Animal Production (MSAP) guidelines for Ross 308 performance curves under tropical high-humidity housing setups.
-
-                </div>
-
             </div>
 
         </section>
@@ -616,6 +604,10 @@
 
         let growthChartInstance = null;
 
+        // =====================================================
+        // FUNCTIONS
+        // =====================================================
+
         function calculateWeight(x, A, B, xStar) {
 
             return A * Math.exp(
@@ -634,6 +626,10 @@
             );
         }
 
+        // =====================================================
+        // ADVICE
+        // =====================================================
+
         function getHusbandryAdvice(x, weight, rate) {
 
             if (x <= 10) {
@@ -646,13 +642,15 @@
                 return `⚡ Grower Stage (Day ${x}): Frame and muscle expansion are accelerating aggressively. The derivative f'(x) is now ${rate.toFixed(1)} g/day. Metabolic heat production rises rapidly — maximize tunnel ventilation airflow and cooling efficiency.`;
             }
 
-            else if (x <= 42) {
+            else {
 
                 return `🍗 Finisher Stage (Day ${x}): Growth rate begins tapering to ${rate.toFixed(1)} g/day while body weight reaches ${weight.toFixed(0)} g. Transition to finisher pellets to optimize Feed Conversion Ratio (FCR).`;
             }
-
-            return `⚠️ Harvest Window Exceeded: The growth derivative f'(x) has fallen significantly. Feed intake continues rising while efficiency deteriorates. Immediate harvesting is recommended.`;
         }
+
+        // =====================================================
+        // DATA
+        // =====================================================
 
         function generateData() {
 
@@ -680,6 +678,10 @@
             };
         }
 
+        // =====================================================
+        // CALCULUS TEXT
+        // =====================================================
+
         function updateMathCard(x, weight, rate) {
 
             const fxTextDiv = document.getElementById("fx-text");
@@ -694,6 +696,10 @@
             dfxTextDiv.innerHTML =
                 `f'(${x}) = ${A} × ${B.toFixed(3)} × e^(${expValString} - e^${expValString}) = ${rate.toFixed(1)} grams/day`;
         }
+
+        // =====================================================
+        // UPDATE
+        // =====================================================
 
         function updateLiveDiagnostics(x) {
 
@@ -720,7 +726,15 @@
 
             document.getElementById("eval-advice").innerText =
                 getHusbandryAdvice(x, weight, rate);
+
+            if (growthChartInstance) {
+                growthChartInstance.update();
+            }
         }
+
+        // =====================================================
+        // CHART
+        // =====================================================
 
         function initChart() {
 
@@ -728,6 +742,85 @@
                 document.getElementById("growthChart").getContext("2d");
 
             const data = generateData();
+
+            // =========================================
+            // PARALLEL LINE PLUGIN
+            // =========================================
+
+            const verticalLinePlugin = {
+
+                id: 'verticalLine',
+
+                afterDraw: (chart) => {
+
+                    if (currentSelectedX !== null) {
+
+                        const ctx = chart.ctx;
+
+                        const xAxis = chart.scales.x;
+                        const yAxisLeft = chart.scales.y;
+
+                        const xPos =
+                            xAxis.getPixelForValue(currentSelectedX);
+
+                        // DRAW VERTICAL LINE
+
+                        ctx.save();
+
+                        ctx.beginPath();
+
+                        ctx.setLineDash([6, 6]);
+
+                        ctx.moveTo(xPos, yAxisLeft.top);
+
+                        ctx.lineTo(xPos, yAxisLeft.bottom);
+
+                        ctx.strokeStyle = '#6366f1';
+
+                        ctx.lineWidth = 2;
+
+                        ctx.stroke();
+
+                        ctx.restore();
+
+                        // DRAW GREEN POINT
+
+                        const weightVal =
+                            calculateWeight(currentSelectedX, A, B, xStar);
+
+                        const yPosWeight =
+                            yAxisLeft.getPixelForValue(weightVal);
+
+                        ctx.save();
+
+                        ctx.beginPath();
+
+                        ctx.arc(
+                            xPos,
+                            yPosWeight,
+                            7,
+                            0,
+                            2 * Math.PI
+                        );
+
+                        ctx.fillStyle = '#10b981';
+
+                        ctx.strokeStyle = '#ffffff';
+
+                        ctx.lineWidth = 3;
+
+                        ctx.shadowColor = 'rgba(0,0,0,0.25)';
+
+                        ctx.shadowBlur = 8;
+
+                        ctx.fill();
+
+                        ctx.stroke();
+
+                        ctx.restore();
+                    }
+                }
+            };
 
             growthChartInstance = new Chart(ctx, {
 
@@ -803,13 +896,15 @@
 
                     scales: {
 
+                        // X AXIS
+
                         x: {
 
                             title: {
 
                                 display: true,
 
-                                text: 'Age of Broiler, x (days)',
+                                text: 'Broiler Age (Days)',
 
                                 font: {
                                     weight: 'bold'
@@ -818,8 +913,22 @@
 
                             min: 0,
 
-                            max: 42
+                            max: 42,
+
+                            ticks: {
+
+                                stepSize: 7,
+
+                                callback: function(value) {
+
+                                    if (value === 0) return '';
+
+                                    return value;
+                                }
+                            }
                         },
+
+                        // Y AXIS LEFT
 
                         y: {
 
@@ -838,6 +947,8 @@
                                 }
                             }
                         },
+
+                        // Y AXIS RIGHT
 
                         y1: {
 
@@ -862,6 +973,8 @@
                         }
                     },
 
+                    // CLICK GRAPH
+
                     onClick: (event) => {
 
                         const chart = growthChartInstance;
@@ -880,9 +993,15 @@
                         document.getElementById("eval-day-slider").value =
                             clickedX;
                     }
-                }
+                },
+
+                plugins: [verticalLinePlugin]
             });
         }
+
+        // =====================================================
+        // UPDATE SIMULATION
+        // =====================================================
 
         function updateSimulation() {
 
@@ -925,6 +1044,10 @@
             updateLiveDiagnostics(currentSelectedX);
         }
 
+        // =====================================================
+        // LOAD
+        // =====================================================
+
         window.onload = function () {
 
             initChart();
@@ -965,4 +1088,3 @@
 
 </body>
 </html>
-```

@@ -91,99 +91,88 @@
 
     <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-6 sm:px-6 lg:px-8 space-y-6">
 
-        <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
-            <h2 class="text-lg font-bold text-slate-900 mb-3 flex items-center gap-2">
-                🐓 Broiler Chicken Study & Data Origin
-            </h2>
-            <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
-                <div class="md:col-span-8 text-sm text-slate-600 leading-relaxed space-y-3">
-                    <p>
-                        This simulation is calibrated using live performance data collected from a commercial batch of <strong>Ross 308 Broiler Chickens</strong>. The chickens were reared in a modern, tunnel-ventilated closed-house system poultry farm located in <strong>Gopeng, Perak, Malaysia</strong>, operating in compliance with the Department of Veterinary Services (DVS) Malaysia standards.
-                    </p>
-                    <p>
-                        The math is simple: the function <strong>f(x)</strong> calculates the cumulative weight of a chicken on day <strong>x</strong>. The derivative <strong>f'(x)</strong> gives the instantaneous growth rate, representing the exact number of grams the chicken adds to its body on that specific day. Monitoring this rate allows farm managers to optimize feed transitions and minimize metabolic heat stress.
-                    </p>
-                </div>
-                
-                <div class="md:col-span-4 bg-brand-50 p-4 rounded-xl border border-brand-100">
-                    <h3 class="text-xs font-bold text-brand-800 uppercase tracking-wider mb-2">Chicken Profile Summary</h3>
-                    <ul class="space-y-1.5 text-xs text-slate-700">
-                        <li>• <strong>Breed:</strong> Ross 308 Broiler (Avian Bioscience)</li>
-                        <li>• <strong>Housing Type:</strong> Tunnel-Ventilated (Closed House)</li>
-                        <li>• <strong>Location:</strong> Gopeng, Perak, Malaysia</li>
-                        <li>• <strong>Standard Cycle:</strong> 42 Days (approx. 6 Weeks)</li>
-                    </ul>
-                </div>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            
+            <!-- Left Column: Context and Functions -->
+            <div class="space-y-6">
+                <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 h-full">
+                    <h2 class="text-lg font-bold text-slate-900 mb-3 flex items-center gap-2">
+                        🐓 Broiler Chicken Study & Data Origin
+                    </h2>
+                    <div class="text-sm text-slate-600 leading-relaxed space-y-3">
+                        <p>
+                            This simulation is calibrated using live performance data collected from a commercial batch of <strong>Ross 308 Broiler Chickens</strong>. The chickens were reared in a modern, tunnel-ventilated closed-house system poultry farm located in <strong>Gopeng, Perak, Malaysia</strong>, operating in compliance with the Department of Veterinary Services (DVS) Malaysia standards.
+                        </p>
+                        <p>
+                            The math is simple: the function <strong>f(x)</strong> calculates the cumulative weight of a chicken on day <strong>x</strong>. The derivative <strong>f'(x)</strong> gives the instantaneous growth rate, representing the exact number of grams the chicken adds to its body on that specific day. Monitoring this rate allows farm managers to optimize feed transitions and minimize metabolic heat stress.
+                        </p>
+                    </div>
+                    
+                    <div class="mt-5 bg-brand-50 p-4 rounded-xl border border-brand-100">
+                        <h3 class="text-xs font-bold text-brand-800 uppercase tracking-wider mb-2">Chicken Profile Summary</h3>
+                        <ul class="space-y-1.5 text-xs text-slate-700">
+                            <li>• <strong>Breed:</strong> Ross 308 Broiler (Avian Bioscience)</li>
+                            <li>• <strong>Housing Type:</strong> Tunnel-Ventilated (Closed House)</li>
+                            <li>• <strong>Location:</strong> Gopeng, Perak, Malaysia</li>
+                            <li>• <strong>Standard Cycle:</strong> 42 Days (approx. 6 Weeks)</li>
+                        </ul>
+                    </div>
+
+                    <div class="mt-4 p-4 bg-indigo-50 border border-indigo-100 rounded-lg text-xs text-indigo-950">
+                        <strong class="text-indigo-900 text-sm block mb-2">📊 Calculus Model Parameters</strong> 
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-indigo-900">
+                            <div>• <strong>x:</strong> Broiler Age (days)</div>
+                            <div>• <strong>x*:</strong> Peak Growth Inflection Age (preset to 28 days)</div>
+                            <div>• <strong>A:</strong> Target Mature Weight (g)</div>
+                            <div>• <strong>B:</strong> Real Growth Velocity Coefficient, where B = k &times; &eta;</div>
+                            <div>• <strong>k:</strong> Genetic Growth Coefficient (day<sup>-1</sup>)</div>
+                            <div>• <strong>&eta; (eta):</strong> Housing & Climate Efficiency Index (0.50 to 1.00)</div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
+                    <h2 class="text-lg font-bold text-slate-900 mb-4">Calculus Functions</h2>
+                    <div class="grid grid-cols-1 gap-4">
+                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-200/60">
+                            <span class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block mb-2">Chicken Weight Function f(x)</span>
+                            <div class="py-2 text-center text-slate-900 font-mono text-base font-bold bg-white rounded border border-slate-100 shadow-sm">
+                                f(x) = A &times; e<sup>-e<sup>-B(x - x*)</sup></sup>
+                            </div>
+                        </div>
+                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-200/60">
+                            <span class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block mb-2">Daily Gain Rate Derivative f'(x)</span>
+                            <div class="py-2 text-center text-slate-900 font-mono text-base font-bold bg-white rounded border border-slate-100 shadow-sm">
+                                f'(x) = A &times; B &times; e<sup>-B(x - x*) - e<sup>-B(x - x*)</sup></sup>
+                            </div>
+                        </div>
+                    </div>
+                </section>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-5 mt-5 border-t border-slate-100">
-                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200/60">
-                    <span class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block mb-2">Chicken Weight Function f(x)</span>
-                    <div class="py-2 text-center text-slate-900 font-mono text-base md:text-lg font-bold bg-white rounded border border-slate-100 shadow-sm">
-                        f(x) = A &times; e<sup>-e<sup>-B(x - x*)</sup></sup>
-                    </div>
-                    <p class="text-[11px] text-slate-500 mt-2 text-center">
-                        Calculates total cumulative weight in grams at age <strong>x</strong> (days).
-                    </p>
-                </div>
-
-                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200/60">
-                    <span class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block mb-2">Daily Gain Rate Derivative f'(x)</span>
-                    <div class="py-2 text-center text-slate-900 font-mono text-base md:text-lg font-bold bg-white rounded border border-slate-100 shadow-sm">
-                        f'(x) = A &times; B &times; e<sup>-B(x - x*) - e<sup>-B(x - x*)</sup></sup>
-                    </div>
-                    <p class="text-[11px] text-slate-500 mt-2 text-center">
-                        Calculates the exact daily growth rate in grams/day on day <strong>x</strong>.
-                    </p>
-                </div>
-            </div>
-
-            <div class="mt-4 p-4 bg-indigo-50 border border-indigo-100 rounded-lg text-xs text-indigo-950 flex flex-col sm:flex-row sm:items-start justify-between gap-3">
-                <div class="space-y-2 w-full">
-                    <strong class="text-indigo-900 text-sm block">📊 Calculus Model Parameters</strong> 
-                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 text-xs text-indigo-900">
-                        <div>• <strong>x:</strong> Broiler Age (days)</div>
-                        <div>• <strong>x*:</strong> Peak Growth Inflection Age (preset to 28 days)</div>
-                        <div>• <strong>A:</strong> Target Mature Weight (g)</div>
-                        <div>• <strong>B:</strong> Real Growth Velocity Coefficient, where B = k &times; &eta;</div>
-                        <div>• <strong>k:</strong> Genetic Growth Coefficient (day<sup>-1</sup>)</div>
-                        <div>• <strong>&eta; (eta):</strong> Housing & Climate Efficiency Index (0.50 to 1.00)</div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 flex flex-col">
-            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b border-slate-100 pb-4 mb-4">
-                <div>
+            <!-- Right Column: Graph -->
+            <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 flex flex-col h-full">
+                <div class="flex flex-col border-b border-slate-100 pb-4 mb-4">
                     <h2 class="text-xl font-bold text-slate-900">
-                        📈 Interactive Growth Curves (0 to 42 Days)
+                        📈 Interactive Growth Curves
                     </h2>
                     <p class="text-xs text-slate-500 mt-0.5">
-                        Solid green line is Weight f(x) (left axis, g). Dashed indigo line is the Daily Gain Rate f'(x) (right axis, g/day).
+                        Solid green line: Weight f(x) (g). Dashed indigo line: Daily Gain Rate f'(x) (g/day).
                     </p>
                 </div>
-                <div class="flex flex-wrap gap-2">
-                    <span class="inline-flex items-center text-xs gap-1.5 bg-brand-50 text-brand-700 px-2.5 py-1 rounded-md border border-brand-200 font-medium">
-                        <span class="w-3 h-3 rounded-full bg-brand-500 block"></span> Weight f(x) (g)
-                    </span>
-                    <span class="inline-flex items-center text-xs gap-1.5 bg-accent-50 text-accent-700 px-2.5 py-1 rounded-md border border-accent-200 font-medium">
-                        <span class="w-3 h-0.5 border-t-2 border-dashed border-accent-500 block"></span> Daily Gain f'(x) (g/day)
-                    </span>
+
+                <div class="relative w-full flex-grow h-[320px] lg:h-auto">
+                    <canvas id="growthChart"></canvas>
                 </div>
-            </div>
 
-            <!-- Chart.js responsive container -->
-            <div class="relative w-full h-[320px] sm:h-[380px]">
-                <canvas id="growthChart"></canvas>
-            </div>
+                <div class="mt-4 bg-slate-50 p-3 rounded-xl border border-slate-200/60 flex items-center gap-2 text-xs text-slate-600">
+                    <span class="text-base">💡</span>
+                    <span><strong>Trace:</strong> Click the graph to see live values.</span>
+                </div>
+            </section>
+        </div>
 
-            <div class="mt-4 bg-slate-50 p-3 rounded-xl border border-slate-200/60 flex items-center gap-2 text-xs text-slate-600">
-                <span class="text-base">💡</span>
-                <span><strong>How to trace:</strong> Use the scroll bar in the calculator below or click anywhere on the graph to evaluate an age. The calculations and technical advice will update instantly.</span>
-            </div>
-        </section>
-
+        <!-- Remaining Sections below the top presentation block -->
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
             
             <!-- Left Panel: Simplified Biological Sliders -->

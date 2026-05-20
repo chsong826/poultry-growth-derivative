@@ -142,8 +142,6 @@
                 <div class="space-y-2 w-full">
                     <strong class="text-indigo-900 text-sm block">📊 Calculus Model Parameters</strong> 
                     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 text-xs text-indigo-900">
-                        <div>• <strong>f(x):</strong> Cumulative weight on day x (grams, g)</div>
-                        <div>• <strong>f'(x):</strong> Daily weight gain rate on day x (g/day)</div>
                         <div>• <strong>x:</strong> Broiler Age (days)</div>
                         <div>• <strong>x*:</strong> Peak Growth Inflection Age (preset to 28.0 days)</div>
                         <div>• <strong>A:</strong> Target Mature Weight (g)</div>
@@ -279,16 +277,16 @@
                     <div class="bg-slate-800/80 p-3 rounded-xl mb-4 border border-slate-750">
                         <div class="flex justify-between items-center mb-1.5">
                             <label for="eval-day-slider" class="text-xs text-indigo-300 font-semibold uppercase tracking-wider">Select Broiler Age (x):</label>
-                            <span class="font-mono text-xs text-white font-bold bg-accent-600 px-2 py-0.5 rounded" id="slider-eval-age-val">28.0 Days</span>
+                            <span class="font-mono text-xs text-white font-bold bg-accent-600 px-2 py-0.5 rounded" id="slider-eval-age-val">28 Days</span>
                         </div>
-                        <input type="range" id="eval-day-slider" min="0" max="42" step="0.5" value="28" class="w-full h-1.5 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-brand-500">
+                        <input type="range" id="eval-day-slider" min="1" max="42" step="1" value="28" class="w-full h-1.5 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-brand-500">
                     </div>
 
                     <!-- Selected Point Metrics -->
                     <div class="grid grid-cols-3 gap-2 text-center mb-5">
                         <div class="bg-slate-800/60 p-2.5 rounded-xl border border-slate-750">
                             <span class="text-[10px] text-slate-400 block uppercase font-semibold">Age (x)</span>
-                            <span class="text-lg font-extrabold text-white" id="eval-age">28.0</span>
+                            <span class="text-lg font-extrabold text-white" id="eval-age">28</span>
                             <span class="text-[10px] text-slate-400 block">days</span>
                         </div>
                         <div class="bg-slate-800/60 p-2.5 rounded-xl border border-slate-750">
@@ -379,19 +377,17 @@
         let eta = 0.80;       // Housing & climate efficiency index
         let B = k * eta;      // Actual growth velocity coefficient (B = k * eta)
         const xStar = 28.0;   // Preset inflection point age (days) where f'(x) is maximized
-        let currentSelectedX = 28.0; // Currently selected evaluation day
+        let currentSelectedX = 28; // Currently selected evaluation day (integer)
 
         let growthChartInstance = null;
 
-        // Gompertz Equations (Standard variables: x, A, B, xStar)
+        // Gompertz Equations
         function calculateWeight(x, A, B, xStar) {
-            // f(x) = A * e^(-e^(-B * (x - xStar)))
             return A * Math.exp(-Math.exp(-B * (x - xStar)));
         }
 
         // Exact derivative equation of Gompertz
         function calculateGrowthRate(x, A, B, xStar) {
-            // f'(x) = A * B * e^(-B * (x - xStar) - e^(-B * (x - xStar)))
             const expTerm = -B * (x - xStar);
             return A * B * Math.exp(expTerm - Math.exp(expTerm));
         }
@@ -407,15 +403,15 @@
             }
             
             if (x <= 10) {
-                return `🐥 Brooding Stage (Day ${x.toFixed(1)}): The broiler chick is starting to build its digestive system. Daily gain f'(x) is ${rate.toFixed(1)} g/day. Feed Starter Crumble (22-24% CP).${climateWarning}`;
+                return `🐥 Brooding Stage (Day ${x}): The broiler chick is starting to build its digestive system. Daily gain f'(x) is ${rate.toFixed(1)} g/day. Feed Starter Crumble (22-24% CP).${climateWarning}`;
             } else if (x > 10 && x < xStarParam - 2) {
-                return `🐓 Accelerated Growth Stage (Day ${x.toFixed(1)}): Rapid skeletal and muscle expansion. The derivative f'(x) is climbing to ${rate.toFixed(1)} g/day. Optimize air speed to assist heat transfer.${climateWarning}`;
+                return `🐓 Accelerated Growth Stage (Day ${x}): Rapid skeletal and muscle expansion. The derivative f'(x) is climbing to ${rate.toFixed(1)} g/day. Optimize air speed to assist heat transfer.${climateWarning}`;
             } else if (Math.abs(x - xStarParam) <= 2) {
-                return `⚡ Peak Growth Day (Day ${x.toFixed(1)}): Broiler inflection point reached! The derivative f'(x) is at its absolute peak of ${rate.toFixed(1)} g/day. Metabolic heat production is at its maximum, making the bird highly susceptible to heat stroke. Maintain maximum cooling airflow!${climateWarning}`;
+                return `⚡ Peak Growth Day (Day ${x}): Broiler inflection point reached! The derivative f'(x) is at its absolute peak of ${rate.toFixed(1)} g/day. Metabolic heat production is at its maximum, making the bird highly susceptible to heat stroke. Maintain maximum cooling airflow!${climateWarning}`;
             } else if (x > xStarParam + 2 && x <= standardCycleLimit) {
-                return `🍗 Finisher Stage (Day ${x.toFixed(1)}): Growth rate f'(x) is tapering off (now at ${rate.toFixed(1)} g/day) while overall body weight is ${weight.toFixed(0)} g. Transition to Finisher Pellets (18-20% CP) to maximize FCR and feed conversion efficiency.`;
+                return `🍗 Finisher Stage (Day ${x}): Growth rate f'(x) is tapering off (now at ${rate.toFixed(1)} g/day) while overall body weight is ${weight.toFixed(0)} g. Transition to Finisher Pellets (18-20% CP) to maximize FCR and feed conversion efficiency.`;
             } else {
-                return `⚠️ Market Target Met (Day ${x.toFixed(1)}): The daily gain rate f'(x) has dropped to ${rate.toFixed(1)} g/day. Keeping birds past Day 42 wastes feed as FCR deteriorates rapidly. Plan immediate harvest!`;
+                return `⚠️ Market Target Met (Day ${x}): The daily gain rate f'(x) has dropped to ${rate.toFixed(1)} g/day. Keeping birds past Day 42 wastes feed as FCR deteriorates rapidly. Plan immediate harvest!`;
             }
         }
 
@@ -425,7 +421,6 @@
             const weightData = [];
             const rateData = [];
 
-            // Plot days 0 to 42 (6 weeks)
             for (let x = 0; x <= 42; x += 1) {
                 labels.push(x);
                 weightData.push(calculateWeight(x, A, B, xStar));
@@ -440,11 +435,10 @@
             const dfxTextDiv = document.getElementById("dfx-text");
 
             if (fxTextDiv && dfxTextDiv) {
-                const expValString = `-${B.toFixed(3)} &times; (${x.toFixed(1)} - ${xStar.toFixed(1)})`;
+                const expValString = `-${B.toFixed(3)} &times; (${x} - ${xStar.toFixed(1)})`;
                 
-                // Formatted plain HTML formula updates
-                fxTextDiv.innerHTML = `f(${x.toFixed(1)}) = ${A} &times; e<sup>-e<sup>${expValString}</sup></sup> = ${weight.toFixed(1)} grams`;
-                dfxTextDiv.innerHTML = `f'(${x.toFixed(1)}) = ${A} &times; ${B.toFixed(3)} &times; e<sup>${expValString} - e<sup>${expValString}</sup></sup> = ${rate.toFixed(1)} grams/day`;
+                fxTextDiv.innerHTML = `f(${x}) = ${A} &times; e<sup>-e<sup>${expValString}</sup></sup> = ${weight.toFixed(1)} grams`;
+                dfxTextDiv.innerHTML = `f'(${x}) = ${A} &times; ${B.toFixed(3)} &times; e<sup>${expValString} - e<sup>${expValString}</sup></sup> = ${rate.toFixed(1)} grams/day`;
             }
         }
 
@@ -455,7 +449,7 @@
             const rate = calculateGrowthRate(x, A, B, xStar);
 
             // Set numeric text values
-            document.getElementById("eval-age").innerText = x.toFixed(1);
+            document.getElementById("eval-age").innerText = x;
             document.getElementById("eval-weight").innerText = weight.toFixed(1);
             document.getElementById("eval-rate").innerText = rate.toFixed(1);
 
@@ -466,7 +460,7 @@
             }
             const scrollSliderText = document.getElementById("slider-eval-age-val");
             if (scrollSliderText) {
-                scrollSliderText.innerText = `${x.toFixed(1)} Days`;
+                scrollSliderText.innerText = `${x} Days`;
             }
 
             // Update layman advice text
@@ -486,7 +480,6 @@
             const ctx = document.getElementById('growthChart').getContext('2d');
             const data = generateData();
 
-            // Custom Chart.js tracer line visual plugin
             const verticalLinePlugin = {
                 id: 'verticalLine',
                 afterDraw: (chart) => {
@@ -495,26 +488,24 @@
                         const xAxis = chart.scales.x;
                         const yAxisLeft = chart.scales.y;
                         
-                        // Render vertical dashed indicator
                         const xPos = xAxis.getPixelForValue(currentSelectedX);
                         ctx.save();
                         ctx.beginPath();
                         ctx.setLineDash([5, 5]);
                         ctx.moveTo(xPos, yAxisLeft.top);
                         ctx.lineTo(xPos, yAxisLeft.bottom);
-                        ctx.strokeStyle = '#6366f1'; // Indigo tracer line
+                        ctx.strokeStyle = '#6366f1';
                         ctx.lineWidth = 1.5;
                         ctx.stroke();
                         ctx.restore();
 
-                        // Render intersection point dot
                         const weightVal = calculateWeight(currentSelectedX, A, B, xStar);
                         const yPosWeight = chart.scales.y.getPixelForValue(weightVal);
                         
                         ctx.save();
                         ctx.beginPath();
                         ctx.arc(xPos, yPosWeight, 6, 0, 2 * Math.PI);
-                        ctx.fillStyle = '#10b981'; // Emerald Green dot
+                        ctx.fillStyle = '#10b981';
                         ctx.strokeStyle = '#ffffff';
                         ctx.lineWidth = 2;
                         ctx.shadowColor = 'rgba(0,0,0,0.15)';
@@ -534,7 +525,7 @@
                         {
                             label: 'Weight f(x) (grams)',
                             data: data.weightData,
-                            borderColor: '#10b981', // Emerald Green
+                            borderColor: '#10b981',
                             borderWidth: 3,
                             fill: false,
                             tension: 0.1,
@@ -545,7 +536,7 @@
                         {
                             label: "Growth Rate f'(x) (g/day)",
                             data: data.rateData,
-                            borderColor: '#6366f1', // Indigo Blue
+                            borderColor: '#6366f1',
                             borderWidth: 2,
                             borderDash: [5, 5],
                             fill: false,
@@ -638,10 +629,8 @@
                         const chart = growthChartInstance;
                         const canvasPosition = Chart.helpers.getRelativePosition(event, chart);
 
-                        // Extract selected X coordinate based on pixel click position
                         const dataX = chart.scales.x.getValueForPixel(canvasPosition.x);
-                        let clickedX = Math.max(0, Math.min(42, dataX));
-                        clickedX = Math.round(clickedX * 2) / 2; // Snap cleanly to nearest half day
+                        let clickedX = Math.max(1, Math.min(42, Math.round(dataX))); // Snap to integer
 
                         updateLiveDiagnostics(clickedX);
                     }
@@ -655,10 +644,8 @@
             k = parseFloat(document.getElementById('param-k').value);
             eta = parseFloat(document.getElementById('param-eta').value);
             
-            // Calculate dynamic real growth speed
             B = k * eta;
 
-            // Update text readouts
             document.getElementById('val-A').innerText = `${A} g`;
             document.getElementById('val-k').innerText = k.toFixed(3);
             document.getElementById('val-eta').innerText = eta.toFixed(2);
@@ -669,8 +656,6 @@
             if (growthChartInstance) {
                 growthChartInstance.data.datasets[0].data = data.weightData;
                 growthChartInstance.data.datasets[1].data = data.rateData;
-                
-                // Readjust scale heights dynamically to match custom configurations
                 growthChartInstance.options.scales.x.max = 42;
                 growthChartInstance.options.scales.y.max = Math.ceil((A + 1000) / 1000) * 1000;
                 growthChartInstance.options.scales.y1.max = Math.ceil((A * B / 2.5) / 10) * 10;
@@ -678,24 +663,19 @@
                 growthChartInstance.update();
             }
 
-            // Keep selected age point metrics fully accurate
             updateLiveDiagnostics(currentSelectedX);
         }
 
-        // Window onload entry point
         window.onload = function() {
-            // Setup slider listeners
             document.getElementById('param-A').addEventListener('input', updateSimulation);
             document.getElementById('param-k').addEventListener('input', updateSimulation);
             document.getElementById('param-eta').addEventListener('input', updateSimulation);
 
-            // Setup day evaluation scroll bar listener
             document.getElementById('eval-day-slider').addEventListener('input', (event) => {
-                const scrolledX = parseFloat(event.target.value);
+                const scrolledX = parseInt(event.target.value);
                 updateLiveDiagnostics(scrolledX);
             });
 
-            // Reset configuration listener
             document.getElementById('reset-params').addEventListener('click', () => {
                 document.getElementById('param-A').value = 4000;
                 document.getElementById('param-k').value = 0.065;
@@ -703,11 +683,8 @@
                 updateSimulation();
             });
 
-            // Initialize visual chart representation
             initChart();
-
-            // Run initial diagnosis display at standard x* = 28 days
-            updateLiveDiagnostics(28.0);
+            updateLiveDiagnostics(28);
         };
     </script>
 </body>

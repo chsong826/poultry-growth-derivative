@@ -6,13 +6,13 @@
 
 <title>Poultry Growth Kinetics Lab - Ross 308 Broilers</title>
 
-<!-- Tailwind -->
+<!-- Tailwind CSS -->
 <script src="https://cdn.tailwindcss.com"></script>
 
 <!-- Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-<!-- Fonts -->
+<!-- Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
@@ -121,7 +121,7 @@ Gompertz Growth Model
 
 <section class="grid grid-cols-1 xl:grid-cols-12 gap-6">
 
-<!-- LEFT -->
+<!-- LEFT PANEL -->
 
 <div class="xl:col-span-4 bg-white rounded-2xl shadow-sm border border-slate-200 p-6 flex flex-col">
 
@@ -314,7 +314,7 @@ Real Growth Speed
 
 </div>
 
-<!-- RIGHT -->
+<!-- RIGHT PANEL -->
 
 <div class="xl:col-span-8 bg-white rounded-2xl shadow-sm border border-slate-200 p-6 flex flex-col">
 
@@ -348,8 +348,6 @@ Weight curve f(x) and Daily Gain Derivative f'(x)
 
 <div class="flex justify-between items-center mb-2">
 
-<!-- THIS IS YOUR CHANGED TEXT -->
-
 <label class="font-semibold text-sm text-slate-700">
 Age of Broiler, x (days)
 </label>
@@ -369,6 +367,111 @@ value="28"
 step="1"
 class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-brand-600"
 >
+
+</div>
+
+<!-- METRICS -->
+
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-5">
+
+<div class="bg-slate-50 border border-slate-200 rounded-xl p-4 text-center">
+
+<div class="text-xs uppercase font-semibold text-slate-500">
+Age
+</div>
+
+<div class="text-3xl font-extrabold text-slate-900 mt-1" id="eval-age">
+28
+</div>
+
+<div class="text-[11px] text-slate-400">
+days
+</div>
+
+</div>
+
+<div class="bg-slate-50 border border-slate-200 rounded-xl p-4 text-center">
+
+<div class="text-xs uppercase font-semibold text-slate-500">
+Weight f(x)
+</div>
+
+<div class="text-3xl font-extrabold text-slate-900 mt-1" id="eval-weight">
+1471.5
+</div>
+
+<div class="text-[11px] text-slate-400">
+grams
+</div>
+
+</div>
+
+<div class="bg-indigo-50 border border-indigo-100 rounded-xl p-4 text-center">
+
+<div class="text-xs uppercase font-semibold text-indigo-700">
+Daily Gain f'(x)
+</div>
+
+<div class="text-3xl font-extrabold text-indigo-700 mt-1" id="eval-rate">
+76.5
+</div>
+
+<div class="text-[11px] text-indigo-400">
+grams/day
+</div>
+
+</div>
+
+</div>
+
+<!-- CALCULUS -->
+
+<div class="mt-5 bg-slate-900 rounded-2xl p-5 border border-slate-800">
+
+<div class="text-[11px] uppercase tracking-wider text-indigo-300 font-bold mb-4">
+🔬 Calculus Calculation Steps
+</div>
+
+<div class="space-y-4 font-mono text-sm">
+
+<div>
+
+<div class="text-indigo-300 font-semibold mb-1">
+1. Cumulative Weight Value f(x)
+</div>
+
+<div id="fx-text" class="text-emerald-300 overflow-x-auto whitespace-nowrap"></div>
+
+</div>
+
+<div>
+
+<div class="text-indigo-300 font-semibold mb-1">
+2. Growth Speed Derivative f'(x)
+</div>
+
+<div id="dfx-text" class="text-emerald-300 overflow-x-auto whitespace-nowrap"></div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- ADVICE -->
+
+<div class="mt-5 bg-slate-900 rounded-2xl p-5 border border-slate-800">
+
+<div class="text-[11px] uppercase tracking-wider text-indigo-300 font-bold mb-3">
+🌾 Layman Technical Advice (What happens on this day)
+</div>
+
+<div
+id="eval-advice"
+class="text-sm text-slate-200 leading-relaxed italic"
+>
+Analyzing biological status...
+</div>
 
 </div>
 
@@ -483,7 +586,7 @@ expTerm - Math.exp(expTerm)
 
 }
 
-// DATA
+// GENERATE DATA
 
 function generateData(){
 
@@ -513,6 +616,54 @@ rateData
 
 }
 
+// UPDATE DIAGNOSTICS
+
+function updateLiveDiagnostics(x){
+
+currentSelectedX = x;
+
+const weight =
+calculateWeight(x, A, B, xStar);
+
+const rate =
+calculateGrowthRate(x, A, B, xStar);
+
+// UPDATE SLIDER TEXT
+
+document.getElementById("slider-eval-age-val").innerText =
+`${x} Days`;
+
+// UPDATE METRICS
+
+document.getElementById("eval-age").innerText = x;
+
+document.getElementById("eval-weight").innerText =
+weight.toFixed(1);
+
+document.getElementById("eval-rate").innerText =
+rate.toFixed(1);
+
+// UPDATE CALCULUS
+
+document.getElementById("fx-text").innerHTML =
+`f(${x}) = ${weight.toFixed(1)} grams`;
+
+document.getElementById("dfx-text").innerHTML =
+`f'(${x}) = ${rate.toFixed(1)} grams/day`;
+
+// UPDATE ADVICE
+
+document.getElementById("eval-advice").innerText =
+`Broiler performance is being analyzed at Day ${x}. Current body weight is ${weight.toFixed(1)} grams while daily gain is ${rate.toFixed(1)} grams/day.`;
+
+// UPDATE GRAPH
+
+if(growthChartInstance){
+growthChartInstance.update();
+}
+
+}
+
 // CHART
 
 function initChart(){
@@ -522,7 +673,7 @@ document.getElementById('growthChart').getContext('2d');
 
 const data = generateData();
 
-// VERTICAL LINE
+// PARALLEL LINE
 
 const verticalLinePlugin = {
 
@@ -535,24 +686,57 @@ if(currentSelectedX !== null){
 const ctx = chart.ctx;
 
 const xAxis = chart.scales.x;
-const yAxis = chart.scales.y;
+
+const yAxisLeft = chart.scales.y;
 
 const xPos =
 xAxis.getPixelForValue(currentSelectedX);
+
+// LINE
 
 ctx.save();
 
 ctx.beginPath();
 
-ctx.setLineDash([6,6]);
+ctx.setLineDash([5,5]);
 
-ctx.moveTo(xPos, yAxis.top);
+ctx.moveTo(xPos, yAxisLeft.top);
 
-ctx.lineTo(xPos, yAxis.bottom);
+ctx.lineTo(xPos, yAxisLeft.bottom);
 
 ctx.strokeStyle = '#6366f1';
 
+ctx.lineWidth = 1.5;
+
+ctx.stroke();
+
+ctx.restore();
+
+// GREEN POINT
+
+const weightVal =
+calculateWeight(currentSelectedX, A, B, xStar);
+
+const yPosWeight =
+chart.scales.y.getPixelForValue(weightVal);
+
+ctx.save();
+
+ctx.beginPath();
+
+ctx.arc(xPos, yPosWeight, 6, 0, 2 * Math.PI);
+
+ctx.fillStyle = '#10b981';
+
+ctx.strokeStyle = '#ffffff';
+
 ctx.lineWidth = 2;
+
+ctx.shadowColor = 'rgba(0,0,0,0.15)';
+
+ctx.shadowBlur = 4;
+
+ctx.fill();
 
 ctx.stroke();
 
@@ -575,43 +759,47 @@ datasets: [
 
 {
 
-label: 'Weight f(x)',
+label: 'Weight f(x) (grams)',
 
 data: data.weightData,
 
 borderColor: '#10b981',
 
-borderWidth: 4,
+borderWidth: 3,
 
 fill: false,
 
-tension: 0.25,
+tension: 0.1,
+
+yAxisID: 'y',
 
 pointRadius: 0,
 
-yAxisID: 'y'
+pointHoverRadius: 6,
 
 },
 
 {
 
-label: "Daily Gain f'(x)",
+label: "Growth Rate f'(x) (g/day)",
 
 data: data.rateData,
 
 borderColor: '#6366f1',
 
-borderWidth: 3,
+borderWidth: 2,
 
-borderDash: [6,6],
+borderDash: [5,5],
 
 fill: false,
 
-tension: 0.25,
+tension: 0.1,
+
+yAxisID: 'y1',
 
 pointRadius: 0,
 
-yAxisID: 'y1'
+pointHoverRadius: 6,
 
 }
 
@@ -625,9 +813,54 @@ responsive: true,
 
 maintainAspectRatio: false,
 
+interaction: {
+
+mode: 'nearest',
+
+intersect: false,
+
+axis: 'x'
+
+},
+
+plugins: {
+
+legend: {
+display: false,
+},
+
+tooltip: {
+
+callbacks: {
+
+label: function(context){
+
+let label =
+context.dataset.label || '';
+
+if(label){
+label += ': ';
+}
+
+if(context.parsed.y !== null){
+label += context.parsed.y.toFixed(1);
+}
+
+return label;
+
+}
+
+}
+
+}
+
+},
+
 scales: {
 
 x: {
+
+type: 'linear',
 
 title: {
 
@@ -636,7 +869,10 @@ display: true,
 text: 'Age of Broiler, x (days)',
 
 font: {
-weight: 'bold'
+
+weight: 'bold',
+
+family: 'Inter'
 }
 
 },
@@ -650,8 +886,6 @@ ticks: {
 stepSize: 7,
 
 callback: function(value){
-
-/* THIS IS YOUR REQUEST */
 
 if(value === 0) return '';
 
@@ -667,6 +901,8 @@ y: {
 
 type: 'linear',
 
+display: true,
+
 position: 'left',
 
 title: {
@@ -676,10 +912,17 @@ display: true,
 text: 'Body Weight f(x) (grams)',
 
 font: {
-weight: 'bold'
+
+weight: 'bold',
+
+family: 'Inter'
 }
 
-}
+},
+
+min: 0,
+
+max: 6000,
 
 },
 
@@ -687,27 +930,38 @@ y1: {
 
 type: 'linear',
 
-position: 'right',
+display: true,
 
-grid: {
-drawOnChartArea: false
-},
+position: 'right',
 
 title: {
 
 display: true,
 
-text: "Daily Gain f'(x) (grams/day)",
+text: "Daily Gain Rate f'(x) (grams/day)",
 
 font: {
-weight: 'bold'
+
+weight: 'bold',
+
+family: 'Inter'
 }
 
-}
+},
+
+min: 0,
+
+max: 120,
+
+grid: {
+drawOnChartArea: false,
+},
 
 }
 
 },
+
+// CLICK GRAPH
 
 onClick: (event) => {
 
@@ -719,15 +973,17 @@ Chart.helpers.getRelativePosition(event, chart);
 const dataX =
 chart.scales.x.getValueForPixel(canvasPosition.x);
 
-const clickedX =
+let clickedX =
 Math.max(1, Math.min(42, Math.round(dataX)));
 
-currentSelectedX = clickedX;
+// MOVE SLIDER
 
 document.getElementById('eval-day-slider').value =
 clickedX;
 
-growthChartInstance.update();
+// UPDATE EVERYTHING
+
+updateLiveDiagnostics(clickedX);
 
 }
 
@@ -739,22 +995,96 @@ plugins: [verticalLinePlugin]
 
 }
 
+// UPDATE SETTINGS
+
+function updateSimulation(){
+
+A = parseFloat(
+document.getElementById('param-A').value
+);
+
+k = parseFloat(
+document.getElementById('param-k').value
+);
+
+eta = parseFloat(
+document.getElementById('param-eta').value
+);
+
+B = k * eta;
+
+document.getElementById('val-A').innerText =
+`${A} g`;
+
+document.getElementById('val-k').innerText =
+k.toFixed(3);
+
+document.getElementById('val-eta').innerText =
+eta.toFixed(2);
+
+document.getElementById('val-B-calc').innerText =
+B.toFixed(4);
+
+const data = generateData();
+
+growthChartInstance.data.datasets[0].data =
+data.weightData;
+
+growthChartInstance.data.datasets[1].data =
+data.rateData;
+
+growthChartInstance.update();
+
+updateLiveDiagnostics(currentSelectedX);
+
+}
+
 // LOAD
 
 window.onload = function(){
 
 initChart();
 
+updateLiveDiagnostics(28);
+
+// SETTINGS
+
+document.getElementById('param-A')
+.addEventListener('input', updateSimulation);
+
+document.getElementById('param-k')
+.addEventListener('input', updateSimulation);
+
+document.getElementById('param-eta')
+.addEventListener('input', updateSimulation);
+
+// SLIDER
+
 document.getElementById('eval-day-slider')
 .addEventListener('input', function(){
 
-currentSelectedX = parseInt(this.value);
+const x = parseInt(this.value);
 
-growthChartInstance.update();
+updateLiveDiagnostics(x);
 
 });
 
-};
+// RESET
+
+document.getElementById('reset-params')
+.addEventListener('click', () => {
+
+document.getElementById('param-A').value = 4000;
+
+document.getElementById('param-k').value = 0.065;
+
+document.getElementById('param-eta').value = 0.80;
+
+updateSimulation();
+
+});
+
+}
 
 </script>
 

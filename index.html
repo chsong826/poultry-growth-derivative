@@ -2,44 +2,35 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Poultry Growth Kinetics Lab - Ross 308 Broilers</title>
 
-    <!-- Tailwind -->
     <script src="https://cdn.tailwindcss.com"></script>
-
-    <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
 
     <script>
         tailwind.config = {
             theme: {
                 extend: {
-
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
                         mono: ['JetBrains Mono', 'monospace'],
                     },
-
                     colors: {
-
                         brand: {
                             50: '#f0fdf4',
                             100: '#dcfce7',
+                            200: '#bbf7d0',
                             500: '#10b981',
                             600: '#059669',
                             700: '#047857',
                             850: '#064e3b',
                             900: '#022c22',
                         },
-
                         accent: {
                             50: '#eef2ff',
                             100: '#e0e7ff',
@@ -55,13 +46,13 @@
     </script>
 
     <style>
-
-        body {
-            background: #f8fafc;
-        }
-
         ::-webkit-scrollbar {
             width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
         }
 
         ::-webkit-scrollbar-thumb {
@@ -69,84 +60,59 @@
             border-radius: 9999px;
         }
 
-        .glass-card {
-            backdrop-filter: blur(10px);
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
         }
-
     </style>
-
 </head>
 
-<body class="font-sans text-slate-800 min-h-screen flex flex-col">
+<body class="bg-slate-50 text-slate-800 min-h-screen font-sans flex flex-col antialiased">
 
-    <!-- ===================================================== -->
     <!-- HEADER -->
-    <!-- ===================================================== -->
-
-    <header class="bg-brand-900 text-white border-b-4 border-brand-500 shadow-md">
-
-        <div class="max-w-[1600px] mx-auto px-4 py-5 flex flex-col lg:flex-row justify-between gap-4">
-
+    <header class="bg-brand-900 text-white shadow-md border-b-4 border-brand-500">
+        <div class="max-w-7xl mx-auto px-4 py-5 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
             <div>
-
                 <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-brand-850 text-brand-100 mb-2">
                     Program: SFH - Animal Husbandry Technology (Malaysia)
                 </span>
 
-                <h1 class="text-3xl lg:text-4xl font-extrabold tracking-tight">
+                <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight flex items-center gap-2">
                     🍗 Chicken Growth & Daily Gain Calculator
                 </h1>
 
-                <p class="text-brand-100 text-sm mt-2 max-w-4xl">
+                <p class="text-brand-100 text-xs sm:text-sm mt-1 max-w-3xl">
                     Analyzing biological growth parameters and derivative rates using the Gompertz Growth Model.
                 </p>
-
             </div>
 
-            <div class="bg-brand-850 p-4 rounded-xl border border-brand-700 self-start">
-
-                <div class="text-xs uppercase font-bold text-brand-100">
+            <div class="bg-brand-850 p-3 rounded-lg border border-brand-700/60 shrink-0">
+                <span class="text-xs text-brand-200 block font-medium uppercase font-semibold">
                     🧬 Bio-Calculus Model
-                </div>
-
-                <div class="text-lg font-bold text-white">
+                </span>
+                <span class="text-sm font-bold text-white block">
                     Gompertz Growth Model
-                </div>
-
+                </span>
             </div>
-
         </div>
-
     </header>
 
-    <!-- ===================================================== -->
     <!-- MAIN -->
-    <!-- ===================================================== -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-6 sm:px-6 lg:px-8">
 
-    <main class="flex-grow max-w-[1600px] mx-auto w-full px-4 py-6 space-y-6">
+        <!-- MAIN TOP LAYOUT -->
+        <div class="grid grid-cols-1 xl:grid-cols-12 gap-6">
 
-        <!-- ===================================================== -->
-        <!-- TOP SECTION -->
-        <!-- ===================================================== -->
-
-        <section class="grid grid-cols-1 xl:grid-cols-12 gap-6 items-stretch">
-
-            <!-- ===================================================== -->
             <!-- LEFT SIDE -->
-            <!-- ===================================================== -->
-
-            <div class="xl:col-span-4 bg-white rounded-2xl shadow-sm border border-slate-200 p-6 flex flex-col">
+            <div class="xl:col-span-5 space-y-6">
 
                 <!-- DATA ORIGIN -->
+                <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
 
-                <div>
-
-                    <h2 class="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
+                    <h2 class="text-lg font-bold text-slate-900 mb-3 flex items-center gap-2">
                         🐓 Broiler Chicken Study & Data Origin
                     </h2>
 
                     <div class="space-y-4 text-sm text-slate-600 leading-relaxed">
-
                         <p>
                             This simulation is calibrated using live performance data collected from a commercial batch of
                             <strong>Ross 308 Broiler Chickens</strong>.
@@ -156,381 +122,374 @@
                         </p>
 
                         <p>
-                            The math is simple: the function <strong>f(x)</strong> calculates the cumulative weight of a chicken on day <strong>x</strong>.
-                            The derivative <strong>f'(x)</strong> gives the instantaneous growth rate,
-                            representing the exact number of grams the chicken adds to its body on that specific day.
+                            The math is simple: the function <strong>f(x)</strong> calculates the cumulative weight of a chicken on day
+                            <strong>x</strong>.
+                            The derivative <strong>f'(x)</strong> gives the instantaneous growth rate, representing the exact number of grams the chicken adds to its body on that specific day.
                             Monitoring this rate allows farm managers to optimize feed transitions and minimize metabolic heat stress.
                         </p>
-
                     </div>
 
-                </div>
+                    <!-- PROFILE -->
+                    <div class="mt-5 bg-brand-50 p-4 rounded-xl border border-brand-100">
+                        <h3 class="text-xs font-bold text-brand-800 uppercase tracking-wider mb-2">
+                            Chicken Profile Summary
+                        </h3>
 
-                <!-- FORMULAS -->
-
-                <div class="space-y-4 mt-6">
-
-                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
-
-                        <span class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block mb-2">
-                            Chicken Weight Function f(x)
-                        </span>
-
-                        <div class="bg-white rounded-lg border border-slate-100 py-3 text-center font-mono text-lg font-bold shadow-sm">
-                            f(x) = A × e<sup>-e<sup>-B(x - x*)</sup></sup>
-                        </div>
-
-                        <p class="text-[11px] text-slate-500 mt-2 text-center">
-                            Calculates cumulative weight in grams.
-                        </p>
-
+                        <ul class="space-y-1.5 text-xs text-slate-700">
+                            <li>• <strong>Breed:</strong> Ross 308 Broiler (Avian Bioscience)</li>
+                            <li>• <strong>Housing Type:</strong> Tunnel-Ventilated (Closed House)</li>
+                            <li>• <strong>Location:</strong> Gopeng, Perak, Malaysia</li>
+                            <li>• <strong>Standard Cycle:</strong> 42 Days (approx. 6 Weeks)</li>
+                        </ul>
                     </div>
 
-                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                    <!-- FUNCTIONS -->
+                    <div class="grid grid-cols-1 gap-4 pt-5 mt-5 border-t border-slate-100">
 
-                        <span class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block mb-2">
-                            Daily Gain Derivative f'(x)
-                        </span>
-
-                        <div class="bg-white rounded-lg border border-slate-100 py-3 text-center font-mono text-lg font-bold shadow-sm">
-                            f'(x) = A × B × e<sup>-B(x - x*) - e<sup>-B(x - x*)</sup></sup>
-                        </div>
-
-                        <p class="text-[11px] text-slate-500 mt-2 text-center">
-                            Calculates exact daily growth rate in grams/day.
-                        </p>
-
-                    </div>
-
-                </div>
-
-                <!-- GROWTH SETTINGS -->
-
-                <div class="mt-6 pt-5 border-t border-slate-100">
-
-                    <div class="flex justify-between items-center mb-5">
-
-                        <h2 class="text-lg font-bold text-slate-900 flex items-center gap-2">
-                            ⚙️ Growth Settings
-                        </h2>
-
-                        <button
-                            id="reset-params"
-                            class="text-sm font-semibold text-brand-700 hover:underline"
-                        >
-                            Reset Defaults
-                        </button>
-
-                    </div>
-
-                    <!-- A -->
-
-                    <div class="mb-5">
-
-                        <div class="flex justify-between mb-2">
-
-                            <label class="font-semibold text-sm text-slate-700">
-                                Mature Weight (A)
-                            </label>
-
-                            <span id="val-A" class="font-mono text-brand-700 font-bold text-sm">
-                                4000 g
+                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-200/60">
+                            <span class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block mb-2">
+                                Chicken Weight Function f(x)
                             </span>
 
+                            <div class="py-2 text-center text-slate-900 font-mono text-base font-bold bg-white rounded border border-slate-100 shadow-sm">
+                                f(x) = A × e<sup>-e<sup>-B(x - x*)</sup></sup>
+                            </div>
+
+                            <p class="text-[11px] text-slate-500 mt-2 text-center">
+                                Calculates total cumulative weight in grams at age <strong>x</strong> (days).
+                            </p>
                         </div>
 
-                        <input
-                            type="range"
-                            id="param-A"
-                            min="3000"
-                            max="5500"
-                            value="4000"
-                            step="50"
-                            class="w-full accent-brand-600"
-                        >
-
-                    </div>
-
-                    <!-- K -->
-
-                    <div class="mb-5">
-
-                        <div class="flex justify-between mb-2">
-
-                            <label class="font-semibold text-sm text-slate-700">
-                                Genetic Growth Coefficient (k)
-                            </label>
-
-                            <span id="val-k" class="font-mono text-brand-700 font-bold text-sm">
-                                0.065
+                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-200/60">
+                            <span class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block mb-2">
+                                Daily Gain Rate Derivative f'(x)
                             </span>
 
-                        </div>
+                            <div class="py-2 text-center text-slate-900 font-mono text-base font-bold bg-white rounded border border-slate-100 shadow-sm">
+                                f'(x) = A × B × e<sup>-B(x - x*) - e<sup>-B(x - x*)</sup></sup>
+                            </div>
 
-                        <input
-                            type="range"
-                            id="param-k"
-                            min="0.040"
-                            max="0.080"
-                            value="0.065"
-                            step="0.001"
-                            class="w-full accent-brand-600"
-                        >
+                            <p class="text-[11px] text-slate-500 mt-2 text-center">
+                                Calculates the exact daily growth rate in grams/day on day <strong>x</strong>.
+                            </p>
+                        </div>
 
                     </div>
 
-                    <!-- ETA -->
-
-                    <div>
-
-                        <div class="flex justify-between mb-2">
-
-                            <label class="font-semibold text-sm text-slate-700">
-                                Climate Efficiency (η)
-                            </label>
-
-                            <span id="val-eta" class="font-mono text-brand-700 font-bold text-sm">
-                                0.80
-                            </span>
-
-                        </div>
-
-                        <input
-                            type="range"
-                            id="param-eta"
-                            min="0.50"
-                            max="1.00"
-                            value="0.80"
-                            step="0.02"
-                            class="w-full accent-brand-600"
-                        >
-
-                    </div>
-
-                    <!-- B -->
-
-                    <div class="mt-5 bg-indigo-50 border border-indigo-100 rounded-xl p-4 text-sm text-indigo-950">
-
-                        Real Growth Speed
-                        <strong>B = k × η</strong>
-
-                        =
-
-                        <strong class="font-mono" id="val-B-calc">
-                            0.0520
+                    <!-- PARAMETERS -->
+                    <div class="mt-5 p-4 bg-indigo-50 border border-indigo-100 rounded-lg text-xs text-indigo-950">
+                        <strong class="text-indigo-900 text-sm block mb-3">
+                            📊 Calculus Model Parameters
                         </strong>
 
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <div>• <strong>x:</strong> Broiler Age (days)</div>
+                            <div>• <strong>x*:</strong> Peak Growth Inflection Age (preset to 28.0 days)</div>
+                            <div>• <strong>A:</strong> Target Mature Weight (g)</div>
+                            <div>• <strong>B:</strong> Real Growth Velocity Coefficient, where B = k × η</div>
+                            <div>• <strong>k:</strong> Genetic Growth Coefficient (day<sup>-1</sup>)</div>
+                            <div>• <strong>η (eta):</strong> Housing & Climate Efficiency Index (0.50 to 1.00)</div>
+                        </div>
                     </div>
+                </section>
 
-                </div>
+                <!-- SIMPLE SETTINGS -->
+                <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
 
-            </div>
-
-            <!-- ===================================================== -->
-            <!-- RIGHT SIDE -->
-            <!-- ===================================================== -->
-
-            <div class="xl:col-span-8 bg-white rounded-2xl shadow-sm border border-slate-200 p-6 flex flex-col">
-
-                <!-- TITLE -->
-
-                <div class="flex flex-col lg:flex-row justify-between gap-4 items-start lg:items-center border-b border-slate-100 pb-4 mb-4">
-
-                    <div>
-
-                        <h2 class="text-2xl font-bold text-slate-900">
-                            📈 Interactive Growth Curves
+                    <div class="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
+                        <h2 class="text-base font-bold text-slate-900 flex items-center gap-2">
+                            ⚙️ Simple Growth Settings
                         </h2>
 
-                        <p class="text-sm text-slate-500 mt-1">
-                            Weight curve f(x) and Daily Gain Derivative f'(x)
-                        </p>
-
+                        <button id="reset-params"
+                            class="text-xs font-semibold text-brand-700 hover:text-brand-800 hover:underline">
+                            Reset Defaults
+                        </button>
                     </div>
 
-                    <div class="flex flex-wrap gap-2">
+                    <p class="text-xs text-slate-500 mb-5 leading-relaxed">
+                        Adjust these biological parameters to see how genetic selection and environmental climate index (η)
+                        shifts the broiler's growth limits.
+                    </p>
 
-                        <span class="inline-flex items-center text-xs gap-1.5 bg-brand-50 text-brand-700 px-3 py-1 rounded-md border border-brand-200 font-medium">
-                            <span class="w-3 h-3 rounded-full bg-brand-500 block"></span>
-                            Weight f(x)
-                        </span>
+                    <div class="space-y-4">
 
-                        <span class="inline-flex items-center text-xs gap-1.5 bg-accent-50 text-accent-700 px-3 py-1 rounded-md border border-accent-200 font-medium">
-                            <span class="w-3 h-0.5 border-t-2 border-dashed border-accent-500 block"></span>
-                            Daily Gain f'(x)
-                        </span>
-
-                    </div>
-
-                </div>
-
-                <!-- BIG LANDSCAPE GRAPH -->
-
-                <div class="relative w-full h-[620px] bg-slate-50 rounded-2xl border border-slate-200 p-4">
-                    <canvas id="growthChart"></canvas>
-                </div>
-
-                <!-- SLIDER -->
-
-                <div class="mt-5 bg-slate-50 p-4 rounded-xl border border-slate-200">
-
-                    <div class="flex justify-between items-center mb-2">
-
-                        <label class="font-semibold text-sm text-slate-700">
-                            Select Broiler Age
-                        </label>
-
-                        <span class="bg-accent-600 text-white px-3 py-1 rounded-lg font-mono text-sm font-bold">
-                            <span id="slider-eval-age-val">28 Days</span>
-                        </span>
-
-                    </div>
-
-                    <input
-                        type="range"
-                        id="eval-day-slider"
-                        min="1"
-                        max="42"
-                        value="28"
-                        step="1"
-                        class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-brand-600"
-                    >
-
-                </div>
-
-                <!-- LIVE METRICS -->
-
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-5">
-
-                    <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 text-center">
-
-                        <div class="text-xs uppercase font-semibold text-slate-500">
-                            Age
-                        </div>
-
-                        <div class="text-3xl font-extrabold text-slate-900 mt-1" id="eval-age">
-                            28
-                        </div>
-
-                        <div class="text-[11px] text-slate-400">
-                            days
-                        </div>
-
-                    </div>
-
-                    <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 text-center">
-
-                        <div class="text-xs uppercase font-semibold text-slate-500">
-                            Weight f(x)
-                        </div>
-
-                        <div class="text-3xl font-extrabold text-slate-900 mt-1" id="eval-weight">
-                            1471.5
-                        </div>
-
-                        <div class="text-[11px] text-slate-400">
-                            grams
-                        </div>
-
-                    </div>
-
-                    <div class="bg-indigo-50 border border-indigo-100 rounded-xl p-4 text-center">
-
-                        <div class="text-xs uppercase font-semibold text-indigo-700">
-                            Daily Gain f'(x)
-                        </div>
-
-                        <div class="text-3xl font-extrabold text-indigo-700 mt-1" id="eval-rate">
-                            76.5
-                        </div>
-
-                        <div class="text-[11px] text-indigo-400">
-                            grams/day
-                        </div>
-
-                    </div>
-
-                </div>
-
-                <!-- CALCULUS STEPS -->
-
-                <div class="mt-5 bg-slate-900 rounded-2xl p-5 border border-slate-800">
-
-                    <div class="text-[11px] uppercase tracking-wider text-indigo-300 font-bold mb-4">
-                        🔬 Calculus Calculation Steps
-                    </div>
-
-                    <div class="space-y-4 font-mono text-sm">
-
+                        <!-- A -->
                         <div>
+                            <div class="flex justify-between text-sm mb-1">
+                                <label class="font-semibold text-slate-700">
+                                    1. Target Mature Weight (A)
+                                </label>
 
-                            <div class="text-indigo-300 font-semibold mb-1">
-                                1. Cumulative Weight Value f(x)
+                                <span class="font-mono text-brand-700 font-bold text-sm bg-brand-50 px-2 py-0.5 rounded"
+                                    id="val-A">
+                                    4000 g
+                                </span>
                             </div>
 
-                            <div id="fx-text" class="text-emerald-300 overflow-x-auto whitespace-nowrap"></div>
+                            <input type="range" id="param-A" min="3000" max="5500" step="50" value="4000"
+                                class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-brand-600">
 
+                            <span class="text-[10px] text-slate-400 flex justify-between px-1 mt-1">
+                                <span>3000g (Severe constraint)</span>
+                                <span>5500g (Maximum potential)</span>
+                            </span>
                         </div>
 
+                        <!-- K -->
                         <div>
+                            <div class="flex justify-between text-sm mb-1">
+                                <label class="font-semibold text-slate-700">
+                                    2. Genetic Growth Coefficient (k)
+                                </label>
 
-                            <div class="text-indigo-300 font-semibold mb-1">
-                                2. Growth Speed Derivative f'(x)
+                                <span class="font-mono text-brand-700 font-bold text-sm bg-brand-50 px-2 py-0.5 rounded"
+                                    id="val-k">
+                                    0.065
+                                </span>
                             </div>
 
-                            <div id="dfx-text" class="text-emerald-300 overflow-x-auto whitespace-nowrap"></div>
+                            <input type="range" id="param-k" min="0.040" max="0.080" step="0.001" value="0.065"
+                                class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-brand-600">
 
+                            <span class="text-[10px] text-slate-400 flex justify-between px-1 mt-1">
+                                <span>0.040 (Slow growing strain)</span>
+                                <span>0.080 (High-yield genetic strain)</span>
+                            </span>
                         </div>
 
+                        <!-- ETA -->
+                        <div>
+                            <div class="flex justify-between text-sm mb-1">
+                                <label class="font-semibold text-slate-700">
+                                    3. Climate/Housing Efficiency (η)
+                                </label>
+
+                                <span class="font-mono text-brand-700 font-bold text-sm bg-brand-50 px-2 py-0.5 rounded"
+                                    id="val-eta">
+                                    0.80
+                                </span>
+                            </div>
+
+                            <input type="range" id="param-eta" min="0.50" max="1.00" step="0.02" value="0.80"
+                                class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-brand-600">
+
+                            <span class="text-[10px] text-slate-400 flex justify-between px-1 mt-1">
+                                <span>0.50 (Open house / Severe heat stress)</span>
+                                <span>1.00 (Perfect tunnel ventilation cooling)</span>
+                            </span>
+                        </div>
+
+                        <div class="bg-indigo-50/50 p-2.5 rounded-lg border border-indigo-100 text-center">
+                            <span class="text-xs text-indigo-950">
+                                Calculated Real Growth Speed <strong>B (k × η)</strong> =
+                                <strong class="font-mono text-indigo-700" id="val-B-calc">
+                                    0.0520
+                                </strong>
+                            </span>
+                        </div>
                     </div>
 
-                </div>
-
-                <!-- LAYMAN ADVICE -->
-
-                <div class="mt-5 bg-slate-900 rounded-2xl p-5 border border-slate-800">
-
-                    <div class="text-[11px] uppercase tracking-wider text-indigo-300 font-bold mb-3">
-                        🌾 Layman Technical Advice (What happens on this day)
+                    <div class="mt-4 pt-3 border-t border-slate-100 text-[11px] text-slate-500 leading-relaxed">
+                        ℹ️ <strong>Husbandry Tip:</strong>
+                        Commercial broilers are bred for extremely rapid protein synthesis.
+                        High growth speeds require high cooling efficiency in Malaysian environments
+                        to prevent cardiovascular failure (Ascites).
                     </div>
-
-                    <div
-                        id="eval-advice"
-                        class="text-sm text-slate-200 leading-relaxed italic"
-                    >
-                        Analyzing biological status...
-                    </div>
-
-                </div>
-
+                </section>
             </div>
 
-        </section>
+            <!-- RIGHT SIDE -->
+            <div class="xl:col-span-7 space-y-6">
 
-        <!-- ===================================================== -->
-        <!-- MALAYSIAN POULTRY SECTION -->
-        <!-- ===================================================== -->
+                <!-- GRAPH -->
+                <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
 
-        <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b border-slate-100 pb-4 mb-4">
 
-            <h2 class="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
+                        <div>
+                            <h2 class="text-xl font-bold text-slate-900">
+                                📈 Interactive Growth Curves (0 to 42 Days)
+                            </h2>
+
+                            <p class="text-xs text-slate-500 mt-0.5">
+                                Solid green line is Weight f(x) (left axis, g).
+                                Dashed indigo line is the Daily Gain Rate f'(x) (right axis, g/day).
+                            </p>
+                        </div>
+
+                        <div class="flex flex-wrap gap-2">
+                            <span class="inline-flex items-center text-xs gap-1.5 bg-brand-50 text-brand-700 px-2.5 py-1 rounded-md border border-brand-200 font-medium">
+                                <span class="w-3 h-3 rounded-full bg-brand-500 block"></span>
+                                Weight f(x) (g)
+                            </span>
+
+                            <span class="inline-flex items-center text-xs gap-1.5 bg-accent-50 text-accent-700 px-2.5 py-1 rounded-md border border-accent-200 font-medium">
+                                <span class="w-3 h-0.5 border-t-2 border-dashed border-accent-500 block"></span>
+                                Daily Gain f'(x) (g/day)
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- CHART -->
+                    <div class="relative w-full h-[430px]">
+                        <canvas id="growthChart"></canvas>
+                    </div>
+
+                    <!-- SLIDER MOVED UNDER GRAPH -->
+                    <div class="mt-5 bg-slate-50 p-4 rounded-xl border border-slate-200">
+
+                        <div class="flex justify-between items-center mb-2">
+                            <label for="eval-day-slider"
+                                class="text-xs text-slate-700 font-semibold uppercase tracking-wider">
+                                Select Broiler Age (x)
+                            </label>
+
+                            <span class="font-mono text-xs text-white font-bold bg-accent-600 px-2 py-0.5 rounded"
+                                id="slider-eval-age-val">
+                                28 Days
+                            </span>
+                        </div>
+
+                        <input type="range" id="eval-day-slider" min="1" max="42" step="1" value="28"
+                            class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-brand-500">
+                    </div>
+
+                    <div class="mt-4 bg-slate-50 p-3 rounded-xl border border-slate-200/60 flex items-center gap-2 text-xs text-slate-600">
+                        <span class="text-base">💡</span>
+
+                        <span>
+                            <strong>How to trace:</strong>
+                            Use the scroll bar below or click anywhere on the graph to evaluate an age.
+                            The calculations and technical advice will update instantly.
+                        </span>
+                    </div>
+                </section>
+
+                <!-- EVALUATION -->
+                <section class="bg-slate-900 text-white rounded-2xl shadow-md p-6 border-b-4 border-accent-500">
+
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-4">
+                        <h3 class="font-bold text-sm flex items-center gap-2 text-indigo-300">
+                            🔬 Selected Day Evaluation Calculator
+                        </h3>
+
+                        <span class="px-2 py-0.5 rounded text-[10px] uppercase font-bold bg-indigo-950 text-indigo-300 border border-indigo-800">
+                            Interactive Analysis
+                        </span>
+                    </div>
+
+                    <!-- METRICS -->
+                    <div class="grid grid-cols-3 gap-2 text-center mb-5">
+
+                        <div class="bg-slate-800/60 p-2.5 rounded-xl border border-slate-750">
+                            <span class="text-[10px] text-slate-400 block uppercase font-semibold">
+                                Age (x)
+                            </span>
+
+                            <span class="text-lg font-extrabold text-white" id="eval-age">
+                                28
+                            </span>
+
+                            <span class="text-[10px] text-slate-400 block">
+                                days
+                            </span>
+                        </div>
+
+                        <div class="bg-slate-800/60 p-2.5 rounded-xl border border-slate-750">
+                            <span class="text-[10px] text-slate-400 block uppercase font-semibold">
+                                Weight f(x)
+                            </span>
+
+                            <span class="text-lg font-extrabold text-white" id="eval-weight">
+                                1471.5
+                            </span>
+
+                            <span class="text-[10px] text-slate-400 block">
+                                grams
+                            </span>
+                        </div>
+
+                        <div class="bg-accent-600/30 p-2.5 rounded-xl border border-accent-500/30 shadow-inner">
+                            <span class="text-[10px] text-accent-300 block uppercase font-bold">
+                                Daily Gain f'(x)
+                            </span>
+
+                            <span class="text-lg font-extrabold text-brand-500" id="eval-rate">
+                                76.5
+                            </span>
+
+                            <span class="text-[10px] text-accent-300 block font-medium">
+                                grams / day
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- FORMULA -->
+                    <div class="bg-black/40 p-4 rounded-xl space-y-3 font-mono text-xs border border-slate-800">
+
+                        <div class="text-[10px] uppercase tracking-wider text-slate-400 font-bold pb-1 border-b border-slate-800">
+                            Calculus Calculation Steps
+                        </div>
+
+                        <div>
+                            <span class="text-indigo-300 font-semibold">
+                                1. Cumulative Weight Value f(x):
+                            </span>
+
+                            <div id="fx-text"
+                                class="py-1 text-emerald-300 overflow-x-auto whitespace-nowrap">
+                            </div>
+                        </div>
+
+                        <div>
+                            <span class="text-indigo-300 font-semibold">
+                                2. Growth Speed Derivative f'(x):
+                            </span>
+
+                            <div id="dfx-text"
+                                class="py-1 text-emerald-300 font-bold overflow-x-auto whitespace-nowrap">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ADVICE -->
+                    <div class="mt-5 pt-4 border-t border-slate-800">
+
+                        <h4 class="text-xs font-bold text-indigo-300 flex items-center gap-1.5 mb-1.5 uppercase tracking-wider">
+                            🌾 Layman Technical Advice (What happens on this day)
+                        </h4>
+
+                        <p class="text-xs text-slate-200 leading-relaxed italic bg-slate-950 p-3 rounded-lg border border-slate-800"
+                            id="eval-advice">
+                            Analyzing biological status...
+                        </p>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <!-- BOTTOM SECTION -->
+        <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 mt-6">
+
+            <h2 class="text-lg font-bold text-slate-900 mb-3 flex items-center gap-2">
                 📍 Malaysian Poultry Science & Farm Management Context
             </h2>
 
-            <div class="space-y-4 text-sm text-slate-600 leading-relaxed">
+            <div class="space-y-4 text-xs sm:text-sm text-slate-600 leading-relaxed">
 
                 <p>
                     In Malaysia's tropical climate, ambient heat stress is a major impediment to broiler performance.
                     High heat impairs feed intake and triggers systemic inflammation.
-                    To combat this, modern Malaysian animal producers utilize closed-house tunnel ventilation with cooling pads to keep the temperature near optimal targets.
+                    To combat this, modern Malaysian animal producers utilize closed-house tunnel ventilation with cooling pads
+                    to keep the temperature near optimal targets.
                 </p>
 
                 <p>
                     Applying growth derivatives helps structure precise feed strategies:
                 </p>
 
-                <ul class="list-disc pl-5 space-y-4">
-
+                <ul class="list-disc pl-5 space-y-2 text-xs">
                     <li>
                         <strong>Starter Phase (Days 0 to 10):</strong>
                         Fast skeletal and gut system division.
@@ -541,8 +500,7 @@
                     <li>
                         <strong>Grower Phase (Days 11 to 28):</strong>
                         Frame and mass acceleration.
-                        The derivative f'(x) climbs aggressively,
-                        reaching its absolute maximum at x* = 28.
+                        The derivative f'(x) climbs aggressively, reaching its absolute maximum at x* = 28.
                         Optimize air speed in tunnel houses to remove metabolic heat!
                     </li>
 
@@ -557,101 +515,80 @@
                     <li>
                         <strong>Harvest Optimization:</strong>
                         Rearing broilers up to the 42-day standard cycle limit represents the maximum profit window.
-                        Past 42 days, the growth rate derivative f'(x) drops off significantly
-                        while feed intake hits record highs.
+                        Past 42 days, the growth rate derivative f'(x) drops off significantly while feed intake hits record highs.
                         Keeping chickens beyond this point leads to major economic losses due to unfavorable Feed Conversion Ratios (FCR).
                     </li>
-
                 </ul>
 
-                <div class="border-l-4 border-slate-200 pl-4 py-3 italic bg-slate-50 rounded-r-lg font-mono text-xs text-slate-500">
-
+                <div class="border-l-4 border-slate-200 pl-4 py-2 italic bg-slate-50 rounded-r-lg font-mono text-[11px] mt-4 text-slate-500">
                     <strong>Reference scientific benchmarks:</strong>
-
                     Malaysian Society of Animal Production (MSAP) guidelines for Ross 308 performance curves under tropical high-humidity housing setups.
-
                 </div>
-
             </div>
-
         </section>
-
     </main>
 
-    <!-- ===================================================== -->
     <!-- FOOTER -->
-    <!-- ===================================================== -->
-
     <footer class="bg-slate-900 text-slate-400 py-6 border-t border-slate-800 text-center text-xs mt-10">
-
         <div class="max-w-7xl mx-auto px-4">
-
             <p>
                 © 2026 Poultry Growth Kinetics Lab - SFH: Animal Husbandry Technology Program.
             </p>
 
             <p class="text-slate-500 mt-1">
-                Applying calculus concepts to maximize Feed Conversion Efficiency (FCR) on Malaysian poultry farms.
+                Applying calculus concepts to maximize Feed Conversion Efficiency (FCR)
+                on Malaysian poultry farms.
             </p>
-
         </div>
-
     </footer>
-
-    <!-- ===================================================== -->
-    <!-- JAVASCRIPT -->
-    <!-- ===================================================== -->
 
     <script>
 
         let A = 4000;
         let k = 0.065;
         let eta = 0.80;
-
         let B = k * eta;
-
-        const xStar = 28;
-
+        const xStar = 28.0;
         let currentSelectedX = 28;
 
         let growthChartInstance = null;
 
         function calculateWeight(x, A, B, xStar) {
-
-            return A * Math.exp(
-                -Math.exp(
-                    -B * (x - xStar)
-                )
-            );
+            return A * Math.exp(-Math.exp(-B * (x - xStar)));
         }
 
         function calculateGrowthRate(x, A, B, xStar) {
-
             const expTerm = -B * (x - xStar);
-
-            return A * B * Math.exp(
-                expTerm - Math.exp(expTerm)
-            );
+            return A * B * Math.exp(expTerm - Math.exp(expTerm));
         }
 
-        function getHusbandryAdvice(x, weight, rate) {
+        function getHusbandryAdvice(x, weight, rate, bParam, xStarParam) {
+
+            let climateWarning = "";
+
+            if (eta < 0.75) {
+                climateWarning =
+                    " ⚠️ ALERT: High metabolic heat stress detected! Lower climate efficiency (η) is restricting cellular protein accumulation.";
+            } else {
+                climateWarning =
+                    " High-efficiency tunnel ventilation system is successfully keeping metabolic heat stress under control.";
+            }
 
             if (x <= 10) {
-
-                return `🐥 Brooding Stage (Day ${x}): The broiler chick is beginning rapid digestive and skeletal development. Daily gain f'(x) is ${rate.toFixed(1)} g/day. Feed high-density starter crumble and maintain stable brooding temperatures.`;
+                return `🐥 Brooding Stage (Day ${x}): The broiler chick is starting to build its digestive system. Daily gain f'(x) is ${rate.toFixed(1)} g/day.${climateWarning}`;
             }
 
-            else if (x <= 28) {
-
-                return `⚡ Grower Stage (Day ${x}): Frame and muscle expansion are accelerating aggressively. The derivative f'(x) is now ${rate.toFixed(1)} g/day. Metabolic heat production rises rapidly — maximize tunnel ventilation airflow and cooling efficiency.`;
+            else if (x > 10 && x < xStarParam - 2) {
+                return `🐓 Accelerated Growth Stage (Day ${x}): Rapid skeletal and muscle expansion. The derivative f'(x) is climbing to ${rate.toFixed(1)} g/day.${climateWarning}`;
             }
 
-            else if (x <= 42) {
-
-                return `🍗 Finisher Stage (Day ${x}): Growth rate begins tapering to ${rate.toFixed(1)} g/day while body weight reaches ${weight.toFixed(0)} g. Transition to finisher pellets to optimize Feed Conversion Ratio (FCR).`;
+            else if (Math.abs(x - xStarParam) <= 2) {
+                return `⚡ Peak Growth Day (Day ${x}): Broiler inflection point reached! The derivative f'(x) is at its absolute peak of ${rate.toFixed(1)} g/day. Maintain maximum cooling airflow!${climateWarning}`;
             }
 
-            return `⚠️ Harvest Window Exceeded: The growth derivative f'(x) has fallen significantly. Feed intake continues rising while efficiency deteriorates. Immediate harvesting is recommended.`;
+            else {
+                return `🍗 Finisher Stage (Day ${x}): Growth rate f'(x) is tapering off (now at ${rate.toFixed(1)} g/day) while overall body weight is ${weight.toFixed(0)} g.`;
+            }
         }
 
         function generateData() {
@@ -660,17 +597,10 @@
             const weightData = [];
             const rateData = [];
 
-            for (let x = 0; x <= 42; x++) {
-
+            for (let x = 0; x <= 42; x += 1) {
                 labels.push(x);
-
-                weightData.push(
-                    calculateWeight(x, A, B, xStar)
-                );
-
-                rateData.push(
-                    calculateGrowthRate(x, A, B, xStar)
-                );
+                weightData.push(calculateWeight(x, A, B, xStar));
+                rateData.push(calculateGrowthRate(x, A, B, xStar));
             }
 
             return {
@@ -685,98 +615,99 @@
             const fxTextDiv = document.getElementById("fx-text");
             const dfxTextDiv = document.getElementById("dfx-text");
 
-            const expValString =
-                `-${B.toFixed(3)} × (${x} - ${xStar})`;
+            const expValString = `-${B.toFixed(3)} × (${x} - ${xStar.toFixed(1)})`;
 
             fxTextDiv.innerHTML =
-                `f(${x}) = ${A} × e^-e^${expValString} = ${weight.toFixed(1)} grams`;
+                `f(${x}) = ${A} × e<sup>-e<sup>${expValString}</sup></sup> = ${weight.toFixed(1)} grams`;
 
             dfxTextDiv.innerHTML =
-                `f'(${x}) = ${A} × ${B.toFixed(3)} × e^(${expValString} - e^${expValString}) = ${rate.toFixed(1)} grams/day`;
+                `f'(${x}) = ${A} × ${B.toFixed(3)} × e<sup>${expValString} - e<sup>${expValString}</sup></sup> = ${rate.toFixed(1)} grams/day`;
         }
 
         function updateLiveDiagnostics(x) {
 
             currentSelectedX = x;
 
-            const weight =
-                calculateWeight(x, A, B, xStar);
-
-            const rate =
-                calculateGrowthRate(x, A, B, xStar);
+            const weight = calculateWeight(x, A, B, xStar);
+            const rate = calculateGrowthRate(x, A, B, xStar);
 
             document.getElementById("eval-age").innerText = x;
-
-            document.getElementById("eval-weight").innerText =
-                weight.toFixed(1);
-
-            document.getElementById("eval-rate").innerText =
-                rate.toFixed(1);
+            document.getElementById("eval-weight").innerText = weight.toFixed(1);
+            document.getElementById("eval-rate").innerText = rate.toFixed(1);
 
             document.getElementById("slider-eval-age-val").innerText =
                 `${x} Days`;
 
+            document.getElementById("eval-advice").innerText =
+                getHusbandryAdvice(x, weight, rate, B, xStar);
+
             updateMathCard(x, weight, rate);
 
-            document.getElementById("eval-advice").innerText =
-                getHusbandryAdvice(x, weight, rate);
+            if (growthChartInstance) {
+                growthChartInstance.update();
+            }
         }
 
         function initChart() {
 
             const ctx =
-                document.getElementById("growthChart").getContext("2d");
+                document.getElementById('growthChart').getContext('2d');
 
             const data = generateData();
+
+            const verticalLinePlugin = {
+                id: 'verticalLine',
+                afterDraw: (chart) => {
+
+                    const ctx = chart.ctx;
+                    const xAxis = chart.scales.x;
+                    const yAxisLeft = chart.scales.y;
+
+                    const xPos =
+                        xAxis.getPixelForValue(currentSelectedX);
+
+                    ctx.save();
+                    ctx.beginPath();
+                    ctx.setLineDash([5, 5]);
+                    ctx.moveTo(xPos, yAxisLeft.top);
+                    ctx.lineTo(xPos, yAxisLeft.bottom);
+                    ctx.strokeStyle = '#6366f1';
+                    ctx.lineWidth = 1.5;
+                    ctx.stroke();
+                    ctx.restore();
+                }
+            };
 
             growthChartInstance = new Chart(ctx, {
 
                 type: 'line',
 
                 data: {
-
                     labels: data.labels,
 
                     datasets: [
 
                         {
-
-                            label: 'Weight f(x)',
-
+                            label: 'Weight f(x) (grams)',
                             data: data.weightData,
-
                             borderColor: '#10b981',
-
-                            borderWidth: 4,
-
+                            borderWidth: 3,
                             fill: false,
-
-                            tension: 0.25,
-
-                            pointRadius: 0,
-
-                            yAxisID: 'y'
+                            tension: 0.1,
+                            yAxisID: 'y',
+                            pointRadius: 0
                         },
 
                         {
-
-                            label: "Daily Gain f'(x)",
-
+                            label: "Growth Rate f'(x)",
                             data: data.rateData,
-
                             borderColor: '#6366f1',
-
-                            borderWidth: 3,
-
-                            borderDash: [6, 6],
-
+                            borderWidth: 2,
+                            borderDash: [5, 5],
                             fill: false,
-
-                            tension: 0.25,
-
-                            pointRadius: 0,
-
-                            yAxisID: 'y1'
+                            tension: 0.1,
+                            yAxisID: 'y1',
+                            pointRadius: 0
                         }
                     ]
                 },
@@ -784,18 +715,15 @@
                 options: {
 
                     responsive: true,
-
                     maintainAspectRatio: false,
 
                     interaction: {
-
                         mode: 'nearest',
-
-                        intersect: false
+                        intersect: false,
+                        axis: 'x'
                     },
 
                     plugins: {
-
                         legend: {
                             display: false
                         }
@@ -804,60 +732,25 @@
                     scales: {
 
                         x: {
-
-                            title: {
-
-                                display: true,
-
-                                text: 'Age of Broiler, x (days)',
-
-                                font: {
-                                    weight: 'bold'
-                                }
-                            },
-
+                            type: 'linear',
                             min: 0,
-
                             max: 42
                         },
 
                         y: {
-
                             type: 'linear',
-
                             position: 'left',
-
-                            title: {
-
-                                display: true,
-
-                                text: 'Body Weight f(x) (grams)',
-
-                                font: {
-                                    weight: 'bold'
-                                }
-                            }
+                            min: 0,
+                            max: 6000
                         },
 
                         y1: {
-
                             type: 'linear',
-
                             position: 'right',
-
+                            min: 0,
+                            max: 120,
                             grid: {
                                 drawOnChartArea: false
-                            },
-
-                            title: {
-
-                                display: true,
-
-                                text: "Daily Gain f'(x) (grams/day)",
-
-                                font: {
-                                    weight: 'bold'
-                                }
                             }
                         }
                     },
@@ -872,53 +765,34 @@
                         const dataX =
                             chart.scales.x.getValueForPixel(canvasPosition.x);
 
-                        const clickedX =
+                        let clickedX =
                             Math.max(1, Math.min(42, Math.round(dataX)));
 
                         updateLiveDiagnostics(clickedX);
-
-                        document.getElementById("eval-day-slider").value =
-                            clickedX;
                     }
-                }
+                },
+
+                plugins: [verticalLinePlugin]
             });
         }
 
         function updateSimulation() {
 
-            A = parseFloat(
-                document.getElementById('param-A').value
-            );
-
-            k = parseFloat(
-                document.getElementById('param-k').value
-            );
-
-            eta = parseFloat(
-                document.getElementById('param-eta').value
-            );
+            A = parseFloat(document.getElementById('param-A').value);
+            k = parseFloat(document.getElementById('param-k').value);
+            eta = parseFloat(document.getElementById('param-eta').value);
 
             B = k * eta;
 
-            document.getElementById('val-A').innerText =
-                `${A} g`;
-
-            document.getElementById('val-k').innerText =
-                k.toFixed(3);
-
-            document.getElementById('val-eta').innerText =
-                eta.toFixed(2);
-
-            document.getElementById('val-B-calc').innerText =
-                B.toFixed(4);
+            document.getElementById('val-A').innerText = `${A} g`;
+            document.getElementById('val-k').innerText = k.toFixed(3);
+            document.getElementById('val-eta').innerText = eta.toFixed(2);
+            document.getElementById('val-B-calc').innerText = B.toFixed(4);
 
             const data = generateData();
 
-            growthChartInstance.data.datasets[0].data =
-                data.weightData;
-
-            growthChartInstance.data.datasets[1].data =
-                data.rateData;
+            growthChartInstance.data.datasets[0].data = data.weightData;
+            growthChartInstance.data.datasets[1].data = data.rateData;
 
             growthChartInstance.update();
 
@@ -926,10 +800,6 @@
         }
 
         window.onload = function () {
-
-            initChart();
-
-            updateLiveDiagnostics(28);
 
             document.getElementById('param-A')
                 .addEventListener('input', updateSimulation);
@@ -943,26 +813,26 @@
             document.getElementById('eval-day-slider')
                 .addEventListener('input', (event) => {
 
-                    const x = parseInt(event.target.value);
+                    const scrolledX =
+                        parseInt(event.target.value);
 
-                    updateLiveDiagnostics(x);
+                    updateLiveDiagnostics(scrolledX);
                 });
 
             document.getElementById('reset-params')
                 .addEventListener('click', () => {
 
                     document.getElementById('param-A').value = 4000;
-
                     document.getElementById('param-k').value = 0.065;
-
                     document.getElementById('param-eta').value = 0.80;
 
                     updateSimulation();
                 });
-        }
+
+            initChart();
+            updateLiveDiagnostics(28);
+        };
 
     </script>
-
 </body>
 </html>
-```
